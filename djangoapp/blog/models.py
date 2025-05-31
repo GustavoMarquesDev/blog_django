@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 from django_summernote.models import AbstractAttachment
 
@@ -161,6 +162,11 @@ class Post(models.Model):
         default=None,
     )
     tags = models.ManyToManyField(Tag, blank=True, default='')
+
+    def get_absolute_url(self):
+        if not self.is_published:
+            return reverse('blog:index')
+        return reverse('blog:post', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if not self.slug:
