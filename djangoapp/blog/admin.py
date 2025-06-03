@@ -39,7 +39,7 @@ class PageAdmin(SummernoteModelAdmin):
 @admin.register(Post)
 class PostAdmin(SummernoteModelAdmin):
     summernote_fields = ('content',)
-    list_display = 'id', 'title', 'is_published', 'created_by',
+    list_display = 'id', 'title', 'is_published', 'created_by', 'link',
     list_display_links = 'title',
     search_fields = 'id', 'slug', 'title', 'excerpt', 'content',
     list_per_page = 50
@@ -62,7 +62,7 @@ class PostAdmin(SummernoteModelAdmin):
 
         url_do_post = obj.get_absolute_url()
         safe_link = mark_safe(
-            f'<a targer="_blank" href="{url_do_post}">Ver post</a>'
+            f'<a target="_blank" href="{url_do_post}">Ver post</a>'
         )
 
         return safe_link
