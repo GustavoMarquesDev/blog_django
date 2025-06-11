@@ -55,39 +55,76 @@ class PostListView(ListView):
 #     )
 
 class CreatedByListView(PostListView):
-    def setup(self, *args, **kwargs):
-        print('este é o metodo setup')
-        return super().setup(*args, **kwargs)
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self._temp_context: dict[str, Any] = {}
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self._temp_context['user']
+        user_full_name = user.username
 
-def created_by(request, author_pk):
-    user = User.objects.filter(pk=author_pk).first()
+        if user.first_name:
+            user_full_name = f"{user.first_name} {user.last_name}"
 
-    if user is None:
-        raise Http404("User not found")
+        page_title = f"Posts by {user_full_name} - "
 
-    posts = Post.objects.get_published().filter(  # type: ignore
-        created_by__pk=author_pk)
-
-    user_full_name = user.username
-
-    if user.first_name:
-        user_full_name = f"{user.first_name} {user.last_name}"
-
-    page_title = f"Posts by {user_full_name} - "
-
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': page_obj,
+        context.update({
             'page_title': page_title,
-        }
-    )
+        })
+
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(
+            created_by__pk=self._temp_context['user'].pk)
+
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        author_pk = self.kwargs.get('author_pk')
+        user = User.objects.filter(pk=author_pk).first()
+
+        if user is None:
+            raise Http404("User not found")
+
+        self._temp_context.update({
+            'author_pk': author_pk,
+            'user': user,
+        })
+
+        return super().get(request, *args, **kwargs)
+
+
+# def created_by(request, author_pk):
+#     user = User.objects.filter(pk=author_pk).first()
+
+#     if user is None:
+#         raise Http404("User not found")
+
+#     posts = Post.objects.get_published().filter(  # type: ignore
+#         created_by__pk=author_pk)
+
+#     user_full_name = user.username
+
+#     if user.first_name:
+#         user_full_name = f"{user.first_name} {user.last_name}"
+
+#     page_title = f"Posts by {user_full_name} - "
+
+#     paginator = Paginator(posts, PER_PAGE)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+
+#     return render(
+#         request,
+#         'blog/pages/index.html',
+#         {
+#             'page_obj': page_obj,
+#             'page_title': page_title,
+#         }
+#     )
 
 
 def category(request, slug):
