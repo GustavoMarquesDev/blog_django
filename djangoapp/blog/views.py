@@ -1,32 +1,63 @@
+from typing import Any
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.http import Http404
+from django.views.generic import ListView
 
 from blog.models import Post, Page, Tag
 
 PER_PAGE = 9
 
 
-def index(request):
-    posts = Post.objects.get_published()  # type: ignore
+class PostListView(ListView):
+    model = Post
+    paginate_by = PER_PAGE
+    template_name = 'blog/pages/index.html'
+    context_object_name = 'posts'
+    ordering = '-pk'
+    queryset = Post.objects.get_published()   # type: ignore
 
-    search_value = request.GET.get("search", "").strip()
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     queryset = queryset.filter(is_published=True)
 
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    #     return queryset
 
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': page_obj,
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        context.update({
             'page_title': 'Home - ',
-            'search_value': search_value,
-        }
-    )
+        })
+
+        return context
+
+
+# def index(request):
+#     posts = Post.objects.get_published()  # type: ignore
+
+#     search_value = request.GET.get("search", "").strip()
+
+#     paginator = Paginator(posts, PER_PAGE)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+
+#     return render(
+#         request,
+#         'blog/pages/index.html',
+#         {
+#             'page_obj': page_obj,
+#             'page_title': 'Home - ',
+#             'search_value': search_value,
+#         }
+#     )
+
+class CreatedByListView(PostListView):
+    def setup(self, *args, **kwargs):
+        print('este é o metodo setup')
+        return super().setup(*args, **kwargs)
 
 
 def created_by(request, author_pk):
