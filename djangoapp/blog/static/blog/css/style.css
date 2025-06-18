@@ -157,7 +157,14 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 img {
+  width: 500px;
+  height: 500px;
+  object-fit: contain;
+  display: block;
   margin: 0 auto;
+}
+img > .card-action-link {
+  height: 200px;
 }
 
 /* CodeMirror */
@@ -430,10 +437,16 @@ html,
 
 .card-text-wrapper {
   padding: var(--spacing-base);
+  display: flex;
+  flex-direction: column;
 }
 
 .card-cover-wrapper {
   aspect-ratio: 16 / 9;
+}
+
+.card-content-wrapper {
+  height: 100px;
 }
 
 .card-cover {
@@ -442,6 +455,9 @@ html,
   object-position: center;
   object-fit: cover;
   transition: opacity 300ms ease-in-out;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
 }
 
 .card-cover:hover {
