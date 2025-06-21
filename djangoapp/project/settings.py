@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR.parent / "data" / "web"
 
+
 # DOTENV
 load_dotenv(BASE_DIR.parent / 'dotenv_files' / '.env', override=True)
 
