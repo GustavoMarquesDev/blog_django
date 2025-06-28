@@ -14,7 +14,8 @@ Este é um blog desenvolvido com Django, Docker e PostgreSQL. A aplicação perm
 | Django     | 4.2+                            |
 | Docker     | 20.10+                          |
 | PostgreSQL | 15+                             |
-| Summernote | Integrado via django-summernote |
+| Summernote | 0.8+                            |
+| Pillow     | 11.2+                           |
 
 ## Funcionalidades
 
