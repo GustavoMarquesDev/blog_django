@@ -4,7 +4,7 @@
     <div class="section-content-wide">
       <div class="section-gap">
         {% if posts %}
-          <div class="card-grid">
+          <div class="card-grid" title="Clique em um post para ver mais">
             {% for post in posts %}
               {% include 'blog/partials/_post-card.html' with i=forloop.counter0 %}
             {% endfor %}

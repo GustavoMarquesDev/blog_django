@@ -137,7 +137,8 @@ class Post(models.Model):
         ),
     )
     content = models.TextField()
-    cover = models.ImageField(upload_to='posts/%Y/%m/', blank=True, default='')
+    cover = models.ImageField(
+        upload_to='posts/%Y/%m/', blank=True, default='',)
     cover_in_post_content = models.BooleanField(
         default=True,
         help_text=('Se marcado, exibirá a capa dentro do post.'),
