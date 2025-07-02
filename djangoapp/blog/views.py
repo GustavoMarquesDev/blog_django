@@ -219,6 +219,7 @@ class SearchListView(PostListView):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._search_value = ''
+        print(self._search_value)
 
     def setup(self, request, *args, **kwargs):
         self._search_value = request.GET.get("search", "").strip()
