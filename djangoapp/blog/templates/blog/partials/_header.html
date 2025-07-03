@@ -38,11 +38,11 @@
             {% for link in site_setup.menulink_set.all %}
               <li class="menu-item">
                 {% if link.new_tab %}
-                  <a class="menu-link" href="{{ link.url_or_path }}" target="blank">
+                  <a class="menu-link" href="{{ link.url_or_path }}" target="blank" title="Abrir link em nova aba">
                     {{ link.text }}
                   </a>
                 {% else %}
-                  <a class="menu-link" href="{{ link.url_or_path }}">
+                  <a class="menu-link" href="{{ link.url_or_path }}" title="Ver mais">
                     {{ link.text }}
                   </a>
                 {% endif %}

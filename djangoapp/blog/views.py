@@ -219,7 +219,6 @@ class SearchListView(PostListView):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._search_value = ''
-        print(self._search_value)
 
     def setup(self, request, *args, **kwargs):
         self._search_value = request.GET.get("search", "").strip()
@@ -230,7 +229,9 @@ class SearchListView(PostListView):
         return super().get_queryset().filter(
             Q(title__icontains=search_value) |
             Q(excerpt__icontains=search_value) |
-            Q(content__icontains=search_value)
+            Q(content__icontains=search_value) |
+            Q(tags__name__icontains=search_value) |
+            Q(category__name__icontains=search_value)
         )[:PER_PAGE]
 
     def get_context_data(self, **kwargs):
