@@ -3,9 +3,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.http import Http404
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.contrib import messages
 
 from blog.models import Post, Page, Tag
+from blog.forms import PostForm, RegisterForm
 
 
 PER_PAGE = 9
@@ -348,3 +352,39 @@ class PostDetailView(DetailView):
 #             'page_title': page_title,
 #         }
 #     )
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/pages/post_create.html'
+    success_url = reverse_lazy('blog:index')
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.updated_by = self.request.user
+
+        messages.success(
+            self.request,
+            'Post criado com sucesso!'
+        )
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Criar Post - '
+        return context
+
+
+class RegisterView(CreateView):
+    model = User
+    form_class = RegisterForm
+    template_name = 'blog/pages/register.html'
+    success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        return super().form_valid(form)

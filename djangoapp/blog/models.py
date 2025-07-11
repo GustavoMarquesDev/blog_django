@@ -87,10 +87,7 @@ class Page(models.Model):
     )
     is_published = models.BooleanField(
         default=False,
-        help_text=(
-            'Este campo precisará estar marcado '
-            'para a página ser exibida publicamente.'
-        ),
+        help_text='Marque para exibir a página publicamente'
     )
     content = models.TextField()
 
@@ -120,7 +117,10 @@ class Post(models.Model):
 
     objects = PostManager()
 
-    title = models.CharField(max_length=65)
+    title = models.CharField(
+        max_length=65,
+        help_text='Título do post (máx. 65 caracteres)'
+    )
     slug = models.SlugField(
         max_length=255,
         unique=True,
@@ -128,20 +128,20 @@ class Post(models.Model):
         null=True,
         blank=True,
     )
-    excerpt = models.CharField(max_length=150)
+    excerpt = models.CharField(
+        max_length=150,
+        help_text='Breve descrição do post (máx. 150 caracteres)'
+    )
     is_published = models.BooleanField(
         default=False,
-        help_text=(
-            'Este campo precisará estar marcado '
-            'para o post ser exibido publicamente.'
-        ),
+        help_text='Marque para exibir o post publicamente'
     )
     content = models.TextField()
     cover = models.ImageField(
         upload_to='posts/%Y/%m/', blank=True, default='',)
     cover_in_post_content = models.BooleanField(
         default=True,
-        help_text=('Se marcado, exibirá a capa dentro do post.'),
+        help_text='Exibir a capa dentro do post'
     )
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
@@ -167,7 +167,12 @@ class Post(models.Model):
         blank=True,
         default=None,
     )
-    tags = models.ManyToManyField(Tag, blank=True, default='')
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True,
+        default='',
+        help_text='Selecione as tags relacionadas ao post'
+    )
 
     def get_absolute_url(self):
         if not self.is_published:

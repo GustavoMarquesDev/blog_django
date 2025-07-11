@@ -197,3 +197,7 @@ AXES_ENABLED = True
 AXES_FAILURE_LIMIT = 6
 AXES_COOLOFF_TIME = 1  # 1 Hour
 AXES_RESET_ON_SUCCESS = True
+
+# Login/Logout Configuration
+LOGIN_REDIRECT_URL = 'blog:index'
+LOGIN_URL = 'login'

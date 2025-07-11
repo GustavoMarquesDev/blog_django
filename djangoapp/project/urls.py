@@ -18,11 +18,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from blog.views import RegisterView
 
 urlpatterns = [
     path("", include("blog.urls")),
     path('summernote/', include('django_summernote.urls')),
     path("admin/", admin.site.urls),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='blog:index'), name='logout'),
+    path('register/', RegisterView.as_view(), name='register'),
 ]
 
 if settings.DEBUG:

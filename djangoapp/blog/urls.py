@@ -8,6 +8,7 @@ from blog.views import (
     SearchListView,
     PageDetailView,
     PostDetailView,
+    PostCreateView,
 )
 
 app_name = "blog"
@@ -24,5 +25,6 @@ urlpatterns = [
     path("category/<slug:slug>/", CategoryListView.as_view(), name="category"),
     path("tag/<slug:slug>/", TagListView.as_view(), name="tag"),
     path("search/", SearchListView.as_view(), name="search"),
+    path("create/", PostCreateView.as_view(), name="post_create"),
 
 ]

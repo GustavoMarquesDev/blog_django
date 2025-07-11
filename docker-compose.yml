@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   djangoapp:
-    container_name: djangoapp
+    container_name: blog_django_form_app
     build:
       context: .
     ports:
@@ -14,10 +12,14 @@ services:
     env_file:
       - ./dotenv_files/.env
     depends_on:
-      - psql
-  psql:
-    container_name: psql
+      - blog_django_form_db
+  blog_django_form_db:
+    container_name: blog_django_form_db
     image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=blog_django_form_db
+      - POSTGRES_USER=blog_form_user
+      - POSTGRES_PASSWORD=blog_form_password_2024
     volumes:
       - ./data/postgres/data:/var/lib/postgresql/data/
     env_file:

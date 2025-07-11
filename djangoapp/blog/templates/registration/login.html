@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<main class="main-content section-wrapper">
+    <div class="form-container">
+        <h1 class="form-title">Entrar</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group">
+                <label for="id_username" class="form-label">Usuário</label>
+                <input type="text" name="username" id="id_username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="id_password" class="form-label">Senha</label>
+                <input type="password" name="password" id="id_password" class="form-control" required>
+            </div>
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Usuário ou senha incorretos. Tente novamente.
+                </div>
+            {% endif %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <a href="{% url 'register' %}" class="btn btn-secondary">Criar Conta</a>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock content %} 

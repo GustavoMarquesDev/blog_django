@@ -1,0 +1,134 @@
+{% extends 'blog/base.html' %}
+
+{% block additional_head %}
+
+{% endblock additional_head %}
+
+{% block content %}
+<main class="main-content section-wrapper">
+    <div class="form-container">
+        <h1 class="form-title">Criar Novo Post</h1>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}" class="form-label">
+                    Título *
+                </label>
+                {{ form.title }}
+                <div class="help-text">Máximo 65 caracteres</div>
+                {% if form.title.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.title.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.excerpt.id_for_label }}" class="form-label">
+                    Resumo *
+                </label>
+                {{ form.excerpt }}
+                <div class="help-text">Máximo 150 caracteres</div>
+                {% if form.excerpt.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.excerpt.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.content.id_for_label }}" class="form-label">
+                    Conteúdo *
+                </label>
+                {{ form.content }}
+                {% if form.content.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.content.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.cover.id_for_label }}" class="form-label">
+                    Imagem de Capa
+                </label>
+                {{ form.cover }}
+                {% if form.cover.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.cover.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.category.id_for_label }}" class="form-label">
+                    Categoria
+                </label>
+                {{ form.category }}
+                {% if form.category.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.category.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.tags.id_for_label }}" class="form-label">
+                    Tags
+                </label>
+                {{ form.tags }}
+                <div class="help-text">Pressione Ctrl (ou Cmd no Mac) para selecionar múltiplas tags</div>
+                {% if form.tags.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.tags.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-check-label">
+                    {{ form.cover_in_post_content }}
+                    Exibir capa dentro do conteúdo do post
+                </label>
+                {% if form.cover_in_post_content.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.cover_in_post_content.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-check-label">
+                    {{ form.is_published }}
+                    Publicar post imediatamente
+                </label>
+                <div class="help-text">Se não marcado, o post ficará como rascunho</div>
+                {% if form.is_published.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.is_published.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-actions">
+                <a href="{% url 'blog:index' %}" class="btn btn-secondary">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    Criar Post
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock content %} 

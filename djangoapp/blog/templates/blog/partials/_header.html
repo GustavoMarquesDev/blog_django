@@ -48,6 +48,30 @@
                 {% endif %}
               </li>
             {% endfor %}
+            
+            {% if user.is_authenticated %}
+              <li class="menu-item">
+                <a class="menu-link" href="{% url 'blog:post_create' %}" title="Criar novo post">
+                  <i class="fa-solid fa-plus"></i> Novo Post
+                </a>
+              </li>
+              <li class="menu-item">
+                <a class="menu-link" href="{% url 'logout' %}" title="Sair">
+                  <i class="fa-solid fa-sign-out-alt"></i> Sair
+                </a>
+              </li>
+            {% else %}
+              <li class="menu-item">
+                <a class="menu-link" href="{% url 'login' %}" title="Entrar">
+                  <i class="fa-solid fa-sign-in-alt"></i> Entrar
+                </a>
+              </li>
+              <li class="menu-item">
+                <a class="menu-link" href="{% url 'register' %}" title="Criar Conta">
+                  <i class="fa-solid fa-user-plus"></i> Criar Conta
+                </a>
+              </li>
+            {% endif %}
           </ul>
         </nav>
       {% endif %}

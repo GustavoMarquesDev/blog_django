@@ -56,6 +56,9 @@ class PostAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     autocomplete_fields = 'tags', 'category',
 
+    # Garantir que os help_texts apareçam
+    show_full_result_count = True
+
     def link(self, obj):
         if not obj.pk:
             return '-'
